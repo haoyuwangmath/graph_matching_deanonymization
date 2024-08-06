@@ -27,7 +27,9 @@ We have two types of graph matching methods: statistical algorithms and GNN-base
   
   where $\{(\lambda_i, u_i)\}$ are the eigenpairs of $A$, $\{(\mu_j, v_j)\}$ are the eigenpairs of $B$, and $\eta$ is a tuning hyperparameter.Then it solves a linear assignment problem of the similarity score $X$ to find the optimal correspondence
   
-* **D-Hop**
+* **D-Hop**: this algorithm is different from the previous two as the D-Hop algorithm uses seeded information (i.e. a portion of the ground truth is known beforehand). Let $S$ denote the seed matrix, where $S_{ij}=1$ if we know the ground truth $i \leftrightarrow j$. The similarity matrix $X$ is computed as
+
+To sum up, all of the statistical algorithms listed above are computationally fast, and they can also be categorized as unsupervised learning methods. The key difference is that the spectral methods such as Umeyama and pairwise spectral alignment do not leverage seeded information but the D-Hop method uses seeds to improve its performance.
 
 ### Graph Neural Network Method
 
@@ -46,7 +48,7 @@ The Facebook network dataset is available at
 The results are listed in the following table
 | Number of Seeds             | 0% | 2% | 4% | 6% | 8% | 10% | 12% | 14% | 16% | 18% | 20% |
 |-----------------------------|----|----|----|----|----|-----|-----|-----|-----|-----|-----|
-| Seeded GNN                  |    |    |    |    |    |     |     |     |     |     |     |
+| GM GNN                      |    |    |    |    |    |     |     |     |     |     |     |
 | 2-Hop                       |    |    |    |    |    |     |     |     |     |     |     |
 | 1-Hop                       |    |    |    |    |    |     |     |     |     |     |     |
 | Pairwise Spectral Alignment |    |    |    |    |    |     |     |     |     |     |     |
@@ -56,7 +58,7 @@ The results are listed in the following table
 The results are listed in the following table
 | Number of Seeds             | 0% | 2% | 4% | 6% | 8% | 10% | 12% | 14% | 16% | 18% | 20% |
 |-----------------------------|----|----|----|----|----|-----|-----|-----|-----|-----|-----|
-| Seeded GNN                  |    |    |    |    |    |     |     |     |     |     |     |
+| GM GNN                      |    |    |    |    |    |     |     |     |     |     |     |
 | 2-Hop                       |    |    |    |    |    |     |     |     |     |     |     |
 | 1-Hop                       |    |    |    |    |    |     |     |     |     |     |     |
 | Pairwise Spectral Alignment |    |    |    |    |    |     |     |     |     |     |     |
