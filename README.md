@@ -82,4 +82,4 @@ The test results for Facebook networks are listed in the following table
 
 
 ## Test for de-anonymizing Twitter-Flickr Networks
-We compare our algorithms with the existing work.
+We compare our algorithms with the existing work ([link](https://snap.stanford.edu/class/cs224w-2012/projects/cs224w-053-final.pdf)).
