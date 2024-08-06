@@ -1,5 +1,7 @@
 # Social Network De-anonymization via Graph Matching
-This repository discusses graph matching algorithms for the social network de-anonymization problem, which refers to finding the same users between different social networks that are possibly anonymized. Compared with other previous works that leverages user profile (e.g. user id), our approaches only rely on graph topological information.
+This repository discusses graph matching algorithms for the social network de-anonymization problem, which refers to finding the same users between different social networks that are possibly anonymized. Compared with other previous works that leverages user profile (e.g. user id), our approaches only rely on graph topological information. 
+
+We will focus on two types of algorithms: traditional statistical approaches and a graph neural network approach.
 
 ## Graph Matching Algorithms
 Graph matching refers to the problem of finding the optimal vertex correspondence between two graphs such that the two graphs after the mapping shares the maximum number of edges. In mathematical language, using $A$ and $B$ to denote the adjacency matrices of graphs $G_1$ and $G_2$, we aim to solve quadratic assignment problem
@@ -29,23 +31,47 @@ We have two types of graph matching methods: statistical algorithms and GNN-base
   
 * **D-Hop**: this algorithm is different from the previous two as the D-Hop algorithm uses seeded information (i.e. a portion of the ground truth is known beforehand). Let $S$ denote the seed matrix, where $S_{ij}=1$ if we know the ground truth $i \leftrightarrow j$. The similarity matrix $X$ is computed as
 
+  <p align="center">
+  <img src="https://latex.codecogs.com/png.latex?X%20%3D%20A_%7B(D)%7D%20S%20B_%7B(D)%7D%5E%5Ctop%2C%20%5Cquad%20A_%7B(D)%7D%20%3D%20%5B(((A_%7B(D)%7D%20A)%20%3E%200)%20-%20%5Csum_%7Bk%3D1%7D%5E%7BD-1%7D%20A_%7B(k)%7D%20-%20I)%20%3E%200%5D%2C%5Cquad%20B_%7B(D)%7D%20%3D%20%5B(((B_%7B(D)%7D%20B)%20%3E%200)%20-%20%5Csum_%7Bk%3D1%7D%5E%7BD-1%7D%20B_%7B(k)%7D%20-%20I)%20%3E%200%5D" alt="X = A_{(D)} S B_{(D)}^\top, \quad A_{(D)} = [(((A_{(D)} A) > 0) - \sum_{k=1}^{D-1} A_{(k)} - I) > 0],\quad B_{(D)} = [(((B_{(D)} B) > 0) - \sum_{k=1}^{D-1} B_{(k)} - I) > 0]">
+  </p>
+  
 To sum up, all of the statistical algorithms listed above are computationally fast, and they can also be categorized as unsupervised learning methods. The key difference is that the spectral methods such as Umeyama and pairwise spectral alignment do not leverage seeded information but the D-Hop method uses seeds to improve its performance.
 
 ### Graph Neural Network Method
+As mentioned above, statistical algorithms are unsupervised. A natural question is if there is a supervised learning approach for graph matching. This line of work focuses on graph neural networks. In particular, the GNN we use here also leverages some insights of statistical methods.
 
 ## Experiment Setup
 ### Requirements
-* Python
-* PyTorch
-* PyTorch Geometric
-* Numpy
-* Scipy
+* Python (>=3.8)
+* PyTorch (>=1.2.0)
+* PyTorch Geometric (>=1.5.0)
+* Numpy (>=1.20.1)
+* Scipy (>=1.6.2)
 
-### Dataset Preparation
-The Facebook network dataset is available at 
+### Training Data
+The Facebook network dataset for GNN training is available at [here](https://archive.org/download/oxford-2005-facebook-matrix/facebook100.zip).
 
-## Test Models on Synthetic Erdos-Renyi Graphs
-The results are listed in the following table
+## Test on Synthetic Erdos-Renyi Graphs
+The sparsity of synthetic graphs is a significant parameter. We consider both the dense regime $p=0.3$ and the sparse regime $p=0.01$. In both regime, we set the correlation parameter to be $s=0.8$
+
+For sparse $s$-correlated Erdos-Renyi graphs $G(n,p,s)$ with $p=0.01$, the accuracy(%) of various algorithms are listed in the following table
+| Number of Seeds             | 0% | 2% | 4% | 6% | 8% | 10% | 12% | 14% | 16% | 18% | 20% |
+|-----------------------------|----|----|----|----|----|-----|-----|-----|-----|-----|-----|
+| GM GNN                      |    |    |    |    |    |     |     |     |     |     |     |
+| 2-Hop                       |    |    |    |    |    |     |     |     |     |     |     |
+| 1-Hop                       |    |    |    |    |    |     |     |     |     |     |     |
+
+
+For dense $s$-correlated Erdos-Renyi graphs $G(n,p,s)$ with $p=0.3$, the results are listed in the following table
+| Number of Seeds             | 0% | 2% | 4% | 6% | 8% | 10% | 12% | 14% | 16% | 18% | 20% |
+|-----------------------------|----|----|----|----|----|-----|-----|-----|-----|-----|-----|
+| GM GNN                      |  0.2  |  0.5  |  12.2  |  88.1  |  90.3  |  97.4   |  100   |  100   |  100   |   100  |  100   |
+| 2-Hop                       |  0.1  |  0.1  |  2.2   |  6.6   |  40.7  |  100    |  100   |  100   |  100   |  100   |   100  |
+| 1-Hop                       |  0.1  |  0.3  |  3.3   |  7.4   |  90.6  |  100    |  100   |  100   |  100   |   100  |  100   |
+
+
+## Test on Facebook Networks
+The test results for Facebook networks are listed in the following table
 | Number of Seeds             | 0% | 2% | 4% | 6% | 8% | 10% | 12% | 14% | 16% | 18% | 20% |
 |-----------------------------|----|----|----|----|----|-----|-----|-----|-----|-----|-----|
 | GM GNN                      |    |    |    |    |    |     |     |     |     |     |     |
@@ -54,14 +80,6 @@ The results are listed in the following table
 | Pairwise Spectral Alignment |    |    |    |    |    |     |     |     |     |     |     |
 | Umeyama                     |    |    |    |    |    |     |     |     |     |     |     |
 
-## Test Models on Facebook Networks
-The results are listed in the following table
-| Number of Seeds             | 0% | 2% | 4% | 6% | 8% | 10% | 12% | 14% | 16% | 18% | 20% |
-|-----------------------------|----|----|----|----|----|-----|-----|-----|-----|-----|-----|
-| GM GNN                      |    |    |    |    |    |     |     |     |     |     |     |
-| 2-Hop                       |    |    |    |    |    |     |     |     |     |     |     |
-| 1-Hop                       |    |    |    |    |    |     |     |     |     |     |     |
-| Pairwise Spectral Alignment |    |    |    |    |    |     |     |     |     |     |     |
-| Umeyama                     |    |    |    |    |    |     |     |     |     |     |     |
 
-## Test Models for De-anonymizing Twitter Network based on Facebook Network
+## Test for de-anonymizing Twitter-Flickr Networks
+We compare our algorithms with the existing work.
