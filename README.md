@@ -51,8 +51,12 @@ As mentioned above, statistical algorithms are unsupervised. A natural question 
 ### Training Data
 The Facebook network dataset for GNN training is available at [here](https://archive.org/download/oxford-2005-facebook-matrix/facebook100.zip).
 
+
+## Training of Models
+
+
 ## Test on Synthetic Erdos-Renyi Graphs
-The sparsity of synthetic graphs is a significant parameter. We consider both the dense regime $p=0.3$ and the sparse regime $p=0.01$. In both regime, we set the correlation parameter to be $s=0.8$
+The sparsity of synthetic graphs is a significant parameter. We consider both the dense regime $p=0.3$ and the sparse regime $p=0.01$. In both regime, we set the number of nodes to be $n=1000$ and the correlation parameter to be $s=0.8$
 
 For sparse $s$-correlated Erdos-Renyi graphs $G(n,p,s)$ with $p=0.01$, the accuracy(%) of various algorithms are listed in the following table
 | Number of Seeds             | 0% | 2% | 4% | 6% | 8% | 10% | 12% | 14% | 16% | 18% | 20% |
@@ -69,6 +73,22 @@ For dense $s$-correlated Erdos-Renyi graphs $G(n,p,s)$ with $p=0.3$, the results
 | 2-Hop                       |  0.1  |  0.1  |  2.2   |  6.6   |  40.7  |  100    |  100   |  100   |  100   |  100   |   100  |
 | 1-Hop                       |  0.1  |  0.3  |  3.3   |  7.4   |  90.6  |  100    |  100   |  100   |  100   |   100  |  100   |
 
+To compare the GNN model with spectral methods, we use the unseeded model to test on synthetic Erdos-Renyi graphs without seeds. Again we consider both the dense regime $p=0.3$ and the sparse regime $p=0.01$, and we test the algorithms on varying graph correlations.
+
+For the dense graphs:
+| Graph Correlation             | 0.50 | 0.55 | 0.60 | 0.65 | 0.70 | 0.75 | 0.80 | 0.85 | 0.90 | 0.95 | 1.00 |
+|-------------------------------|------|------|------|------|------|------|------|------|------|------|------|
+| GM GNN                        |      |      |      |      |      |      |      |      |      |      |      |
+| Pairwise Spectral Alignment   |      |      |      |      |      |      |      |      |      |      |      |
+| Umeyama                       |      |      |      |      |      |      |      |      |      |      |      |
+
+For the sparse graphs:
+| Graph Correlation             | 0.50 | 0.55 | 0.60 | 0.65 | 0.70 | 0.75 | 0.80 | 0.85 | 0.90 | 0.95 | 1.00 |
+|-------------------------------|------|------|------|------|------|------|------|------|------|------|------|
+| GM GNN                        |      |      |      |      |      |      |      |      |      |      |      |
+| Pairwise Spectral Alignment   |      |      |      |      |      |      |      |      |      |      |      |
+| Umeyama                       |      |      |      |      |      |      |      |      |      |      |      |
+
 
 ## Test on Facebook Networks
 The test results for Facebook networks are listed in the following table
@@ -77,8 +97,7 @@ The test results for Facebook networks are listed in the following table
 | GM GNN                      |    |    |    |    |    |     |     |     |     |     |     |
 | 2-Hop                       |    |    |    |    |    |     |     |     |     |     |     |
 | 1-Hop                       |    |    |    |    |    |     |     |     |     |     |     |
-| Pairwise Spectral Alignment |    |    |    |    |    |     |     |     |     |     |     |
-| Umeyama                     |    |    |    |    |    |     |     |     |     |     |     |
+
 
 
 ## Test for de-anonymizing Twitter-Flickr Networks
